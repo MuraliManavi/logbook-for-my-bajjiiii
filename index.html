@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECE Semester Command Center</title>
+    <style>
+        :root {
+            --bg-dark: #0f172a;
+            --panel-dark: #1e293b;
+            --accent-blue: #38bdf8;
+            --accent-green: #34d399;
+            --accent-red: #f87171;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Design */
+        aside {
+            width: 280px;
+            background-color: var(--panel-dark);
+            border-right: 1px solid #334155;
+            padding: 2rem 1.5rem;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .brand h2 {
+            color: var(--accent-blue);
+            font-size: 1.4rem;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .nav-links {
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            display: block;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            background-color: #334155;
+            color: var(--accent-blue);
+        }
+
+        /* Main Content Container */
+        main {
+            margin-left: 280px;
+            flex-grow: 1;
+            padding: 3rem;
+        }
+
+        header {
+            margin-bottom: 2.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 0.3rem;
+        }
+
+        header p {
+            color: var(--text-muted);
+        }
+
+        #current-time {
+            background-color: #334155;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            color: var(--accent-blue);
+            font-size: 0.9rem;
+        }
+
+        /* Live Logger Panel */
+        .logger-panel {
+            background-color: var(--panel-dark);
+            border: 1px solid #334155;
+            border-radius: 0.75rem;
+            padding: 2rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .logger-panel h2 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent-green);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logger-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            gap: 1.5rem;
+            align-items: flex-end;
+        }
+
+        @media (max-width: 900px) {
+            .logger-grid { grid-template-columns: 1fr; }
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .input-group label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .input-group select, .input-group input {
+            background-color: #0f172a;
+            border: 1px solid #334155;
+            color: var(--text-main);
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            outline: none;
+            transition: border 0.2s;
+        }
+
+        .input-group select:focus, .input-group input:focus {
+            border-color: var(--accent-blue);
+        }
+
+        .log-btn {
+            background-color: var(--accent-green);
+            color: #0f172a;
+            border: none;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .log-btn:hover { opacity: 0.9; }
+
+        /* History Stream */
+        .history-section {
+            margin-bottom: 3rem;
+        }
+
+        .history-section h3 {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+        }
+
+        .history-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .history-item {
+            background-color: #111827;
+            border: 1px solid #1e293b;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .history-meta h4 {
+            color: var(--accent-blue);
+            margin-bottom: 0.25rem;
+        }
+
+        .history-meta p {
+            font-size: 0.95rem;
+            color: var(--text-main);
+            line-height: 1.4;
+        }
+
+        .history-timestamp {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-align: right;
+            white-space: nowrap;
+        }
+
+        /* Syllabus Accordion Style Modifications */
+        .subject-section {
+            background-color: var(--panel-dark);
+            border: 1px solid #334155;
+            border-radius: 0.75rem;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+
+        .subject-header {
+            padding: 1.5rem;
+            background-color: #1e293b;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .subject-header:hover { background-color: #273549; }
+
+        .badge {
+            background-color: #334155;
+            color: var(--accent-blue);
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .badge.danger { color: var(--accent-red); background-color: #451a1a; }
+
+        .subject-content {
+            display: none;
+            padding: 2.5rem;
+            border-top: 1px solid #334155;
+            background-color: #0b0f19;
+        }
+
+        .unit-block {
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #1e293b;
+        }
+
+        .unit-block:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+
+        .unit-block h4 { 
+            color: var(--accent-blue); 
+            margin-bottom: 1rem; 
+            font-size: 1.15rem;
+            border-left: 3px solid var(--accent-blue);
+            padding-left: 0.5rem;
+        }
+
+        .unit-block ul { list-style-position: inside; color: var(--text-muted); line-height: 1.7; }
+        .unit-block ul li { margin-bottom: 0.6rem; }
+        
+        .formula-box {
+            background-color: #1e293b;
+            border: 1px dashed #475569;
+            padding: 1rem;
+            border-radius: 0.375rem;
+            color: var(--accent-green);
+            font-family: 'Courier New', Courier, monospace;
+            margin: 0.5rem 0 1rem 0;
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+    </style>
+</head>
+<body>
+
+    <aside>
+        <div class="brand">
+            <h2>ECE Command Hub</h2>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#" class="active">Logger Dashboard</a></li>
+            <li><a href="#math2">Engineering Math-II</a></li>
+            <li><a href="#network">Network Analysis</a></li>
+            <li><a href="#bcme">Basic Civil & Mech</a></li>
+            <li><a href="#ds">Data Structures</a></li>
+            <li><a href="#chemistry">Engineering Chemistry</a></li>
+            <li><a href="#english">Communicative English</a></li>
+            <li><a href="#supply">1-1 Supply Prep</a></li>
+        </ul>
+    </aside>
+
+    <main>
+        <header>
+            <div>
+                <h1>Dynamic Progress Monitor</h1>
+                <p>Select what you are working on, track your real-time topics, and verify coverage.</p>
+            </div>
+            <div id="current-time">Loading System Clock...</div>
+        </header>
+
+        <!-- Dynamic Study Logger Panel -->
+        <section class="logger-panel">
+            <h2>📝 Log Your Completed Work</h2>
+            <div class="logger-grid">
+                <div class="input-group">
+                    <label for="subject-select">Select Target Subject</label>
+                    <select id="subject-select">
+                        <option value="Engineering Mathematics-II">Engineering Mathematics-II</option>
+                        <option value="Network Analysis">Network Analysis</option>
+                        <option value="Basic Civil & Mechanical Engineering">Basic Civil & Mechanical Engineering</option>
+                        <option value="Data Structures">Data Structures</option>
+                        <option value="Engineering Chemistry">Engineering Chemistry</option>
+                        <option value="Communicative English">Communicative English</option>
+                        <option value="1-1 Supply: Linear Algebra & Calculus">1-1 Supply: Linear Algebra & Calculus</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="topics-input">Completed Topics (Read & Practiced)</label>
+                    <input type="text" id="topics-input" placeholder="e.g., Practiced 5 Bernoulli DE problems, drew HPLC block diagram">
+                </div>
+                <button class="log-btn" onclick="logStudySession()">Log Session</button>
+            </div>
+        </section>
+
+        <!-- Live History Stream -->
+        <section class="history-section">
+            <h3>Verified Study History</h3>
+            <div class="history-list" id="log-history">
+                <div class="history-item" id="empty-state">
+                    <p style="color: var(--text-muted);">No study logs submitted for this cycle yet. Enter your topics above to begin monitoring metrics.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Master Syllabus Resource Blueprint -->
+        <h3 style="margin-bottom: 1rem; color: var(--text-muted); text-transform: uppercase; font-size: 1rem;">Reference Syllabus Blueprint</h3>
+        <div id="syllabus-container">
+            
+            <!-- MATH II EXPANDED -->
+            <div class="subject-section" id="math2">
+                <div class="subject-header" onclick="toggleSection(this)">
+                    <div>
+                        <h2 style="font-size: 1.2rem;">Engineering Mathematics-II</h2>
+                        <span class="badge">Regular Exam</span>
+                    </div>
+                    <div>▼</div>
+                </div>
+                <div class="subject-content">
+                    <div class="unit-block">
+                        <h4>Unit 1: Differential Equations of First Order and First Degree</h4>
+                        <ul>
+                            <li><strong>Linear Differential Equations:</strong> Formulated as dy/dx + Py = Q, solved using integrating factor templates.</li>
+                        </ul>
+                        <div class="formula-box">I.F. = e^(∫P dx)  ==> Solution: y * I.F. = ∫(Q * I.F.)dx + C</div>
+                        <ul>
+                            <li><strong>Bernoulli's Equation:</strong> Reduces non-linear models of the form dy/dx + Py = Q * y^n by making substitution v = y^(1-n).</li>
+                            <li><strong>Exact Conditions:</strong> Equation Mdx + Ndy = 0 is exact if and only if ∂M/∂y = ∂N/∂x. Non-exact variations require verification of structural Integrating Factors.</li>
+                            <li><strong>Applications:</strong> Newton's Law of Cooling (dT/dt = -k(T - Ts)), radioactive decay pathways, and standard LR / RC electric current growth loops.</li>
+                        </ul>
+                    </div>
+                    <div class="unit-block">
+                        <h4>Unit 2: Linear Differential Equations of Higher Order</h4>
+                        <ul>
+                            <li><strong>Operator Formulations:</strong> Solves higher-order equations f(D)y = Q(x) via Complete Solutions: y = C.F. + P.I.</li>
+                            <li><strong>Particular Integral (P.I.) Operational Shortcuts:</strong></li>
+                        </ul>
+                        <div class="formula-box">
+                            Type 1 [Q(x) = e^(ax)]: Set D = a, provided f(a) != 0.<br>
+                            Type 2 [Q(x) = sin(ax) or cos(ax)]: Set D^2 = -(a^2), provided f(-(a^2)) != 0.<br>
+                            Type 3 [Q(x) = x^m]: Expand [f(D)]^(-1) using algebraic binomial paths.
+                        </div>
+                        <ul>
+                            <li><strong>Advanced Reduction Paths:</strong> Method of Variation of Parameters using Wronskian determinants. Cauchy-Euler systems resolved by mapping x = e^z.</li>
+                        </ul>
+                    </div>
+                    <div class="unit-block">
+                        <h4>Unit 3: Partial Differential Equations (PDE)</h4>
+                        <ul>
+                            <li><strong>Formation Schemes:</strong> Deriving partial differential surfaces by systematically removing arbitrary constants or breaking functional loops.</li>
+                            <li><strong>Lagrange's First Order Method:</strong> Formulates solutions for Pp + Qq = R expressions using simultaneous ratios.</li>
+                        </ul>
+                        <div class="formula-box">Auxiliary Equation System: dx / P = dy / Q = dz / R</div>
+                    </div>
+                    <div class="unit-block">
+                        <h4>Unit 4: Vector Differentiation</h4>
+                        <ul>
+                            <li><strong>Vector Operations:</strong> Applying the Del operator (∇ = i∂/∂x + j∂/∂y + k∂/∂z) to fields.</li>
+                            <li><strong>Gradient & Directional Derivatives:</strong> ∇Φ identifies normal vectors to surfaces. Max rates of change derived via directional dot products.</li>
+                            <li><strong>Divergence & Curl Fields:</strong> Divergence (∇ · F) maps local volumetric expansion. Curl (∇ x F) tracks local axis rotation speeds.</li>
+                        </ul>
+                        <div class="formula-box">Solenoidal Condition: ∇ · F = 0   ||   Irrotational Condition: ∇ x F = 0</div>
+                    </div>
+                    <div class="unit-block">
+                        <h4>Unit 5: Vector Integration & Field Theorems</h4>
+                        <ul>
+                            <li><strong>Integration Metrics:</strong> Line Integrals track Work Done (∫F·dr). Surface integrals assess Flux streams.</li>
+                            <li><strong>The Core Integral Proof Structures:</strong></li>
+                        </ul>
+                        <div class="formula-box">
+                            Green's Theorem: ∫(Mdx + Ndy) = ∫∫(∂N/∂x - ∂M/∂y)dxdy [2D Plane Area Conversion]<br>
+                            Stoke's Theorem: ∫F · dr = ∫∫(∇ x F) · n dS [3D Line to Surface Curl Conversion]<br>
+                            Gauss Divergence: ∫∫F · n dS = ∫∫∫(∇ · F) dV [Surface Envelopes to Volumetric Integral Conversion]
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NETWORK ANALYSIS EXPANDED -->
+            <div class="subject-section" id="network">
+                <div class="subject-header" onclick="toggleSection(this)">
+                    <div>
+                        <h2 style="font-size: 1.2rem;">Network Analysis</h2>
+                        <span class="badge">Core ECE Track</span>
+                    </div>
+                    <div>▼</div>
+                </div>
+                <div class="subject-content">
+                    <div class="unit-block">
+                        <h4>Unit 1: DC Circuits & Network Theorems</h4>
+                        <ul>
+                            <li><strong>Analysis Loops:</strong> Nodal analysis driven by KCL setups. Mesh equations built using structural loop matrices.</li>
+                            <li><strong>Dependent Sources:</strong> Managing Voltage and Current controlled elements during calculations.</li>
+                            <li><strong>Transform Theorems:</strong> Thevenin values (Vth, Rth) and Norton targets (In, Rn). Max Power occurs when load resistance matching satisfies:</li>
+                        </ul>
+                        <div class="formula-box">Pure DC Loop: RL = Rth   ||   Complex AC Loop: ZL = Zth* (Complex Conjugate Match)</div>
+                    </div>
+                    <div class="unit-block">
+                        <h4>Unit 2: Transients & Laplace domain</h4>
+                        <ul>
+                            <li><strong>Time Domain Transitions:</strong> Managing state changes in R-L and R-C circuits. Inductors maintain continuous currents i(0-)=i(0+). Capacitors block sudden shifts in voltage v(0-)=v(0+).</li>
+                            <li><strong>s-Domain Equivalents:</strong> Converting components using Laplace Transforms.</li>
+                        </ul>
+                        <div class="formula-box">Inductors: sL impedance with series initial voltage source [L*i(0-)]<br>Capacitors: 1/sC impedance with series initial voltage source [v(0-)/s]</div>
+                    </div>
+                    <div class="unit-block">
+                        <h4>Unit 3: Steady State AC Networks</h4>
+                        <ul>
+                            <li><strong>Sinusoidal Tracking:</strong> Working with reactive impedances (Z = R + jX) and reactive admitances (Y = G + jB).</li>
+                            <li><strong>Phasor Architectures:</strong> Performing vector shifts and angular arithmetic on complex waveforms using Euler rules.</li>
+                            <li><strong>Star-Delta Interconversions:</strong> Simplifies complex multi-terminal networks.</li>
+                        </ul>
+                        <div class="formula-box">Delta to Star: R1 = (Rb * Rc) / (Ra + Rb + Rc)</div>
+                    </div>
+                    <div class="unit-block">
+                        <h4>Unit 4: Resonance & Coupled Loops</h4>
+                        <ul>
+                            <li><strong>Resonance Parameters:</strong> Conditions where inductive reactances equal capacitive components, driving input currents entirely in phase with supply lines.</li>
+                        </ul>
+                        <div class="formula-box">Resonant Frequency: ω0 = 1 / sqrt(L * C)   ||   Quality Factor: Q = ω0*L / R = 1 / (ω0*C*R)</div>
+                            <li><strong>Coupled Magnetic Systems:</strong> Mutual inductance (M) calculations combined with dot rules to determine if induced voltages add or subtract.</li>
+                        </ul>
+                    </div>
+                    <div class="unit-block">
+                        <h4>Unit 5: Two-Port Networks</h4>
+                        <ul>
+                            <li><strong>Parameter Configurations:</strong> Solving for matrix indices using black box port boundaries.</li>
+                        </ul>
+                        <div class="formula-box">
+                            Z-Parameters (Open Circuit): V1 = Z11*I1 + Z12*I2 || V2 = Z21*I1 + Z22*I2<br>
+                            Y-Parameters (Short Circuit): I1 = Y11*V1 + Y12*V2 || I2 = Y21*V1 + Y22*V2<br>
+                            ABCD Parameters (Transmission): V1 = A*V2 - B*I2 || I1 = C*V2 - D*I2 [Ideal for Cascaded Links]
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BCME EXPANDED -->
+            <div class="subject-section" id="bcme">
+                <div class="subject-header" onclick="toggleSection(this)">
+                    <div>
+                        <h2 style="font-size: 1.2rem;">Basic Civil & Mechanical Engineering</h2>
+                        <span class="badge">Foundational Survey</span>
+                    </div>
+                    <div>▼</div>
+                </div>
+                <div class="subject-content">
+                    <div class="unit-block">
+                        <h4>Unit 1: Intro to Mechanical Engineering</h4>
+                        <ul>
+                            <li><strong>Ferrous Alloys:</strong> High carbon content steels used for heavy structural rigidity.</li>
+                            <li><strong>Non-Ferrous Systems:</strong> Aluminum and Titanium alloys used for lightweight, corrosion-free aircraft frames.</li>
+                            <li><strong>Advanced Compositions:</strong> Structural ceramics for heat shields and smart alloys (Nitinol) that return to original shapes via temperature adjustments.</li>
+                        </ul>
+                    </div>
+                    <div class="unit-block">
+                        <h4>Unit 2: Manufacturing & Thermal Systems</h4>
+                        <ul>
+                            <li><strong>Production Elements:</strong> Sand casting processes for molding engine blocks, joining metal sheets via arc welding configurations, and material shaping via milling operations.</li>
+                            <li><strong>Internal Combustion Mechanics:</strong></li>
+                        </ul>
+                        <div class="formula-box">
+                            4-Stroke Cycle: Suction -> Compression -> Power -> Exhaust [1 Power Stroke every 2 Crank Revolutions]<br>
+                            2-Stroke Cycle: Combined ports handled within single stroke moves [1 Power Stroke every 1 Crank Revolution]<br>
+                            Otto Cycle: Spark Ignition (SI), constant volume heat addition || Diesel Cycle: Compression Ignition (CI), constant pressure addition
+                        </div>
+                    </div>
+                    <div class="unit-block">
+                        <h4>Unit 3: Power Plants & Robotics links</h4>
+                        <ul>
+                            <li><strong>Energy Distribution Layouts:</strong> Steam cycles using coal boilers, Hydroelectric configurations mapping potential water energy via Pelton wheels, and Nuclear reactors tracking uranium fission paths.</li>
+                            <li><strong>Power Transmissions:</strong> Gear ratios, flat belt profiles, and chain loops.</li>
+                            <li><strong>Robotics Kinematics:</strong> Joint degree tracking across industrial arms. Work spaces mapped across Cartesian, Cylindrical, Spherical, and Articulated systems.</li>
+                        </ul>
+                    </div>
+                    <div class="unit-block">
+                        <h4>Unit 4: Civil Infrastructure Foundations</h4>
+                        <ul>
+                            <li><strong>Structural Disciplines:</strong> Geotechnical criteria for inspecting soil load tolerances. Environmental disciplines focusing on water distribution grids.</li>
+                            <li><strong>Material Specifications:</strong> Compressive strengths of standard Portland Cement, coarse grading setups for gravel aggregations, and reinforced concrete grids using high-yield steel rods.</li>
+                        </ul>
+                    </div>
+                    <div class="unit-block">
+                        <h4>Unit 5: Surveying Operations</h4>
+                        <ul>
+                            <li><strong>Geodetic Evaluations:</strong> Mapping distance profiles using precise tape chains and calculating angular boundaries using specialized compasses.</li>
+                            <li><strong>True Bearings Calculations:</strong> Forwards and backwards heading checking to adjust metrics against magnetic interference anomalies.</li>
+                        </ul>
+                        <div class="formula-box">True Bearing = Magnetic Bearing +/- Declination Error</div>
+                    </div>
+                    <div class="unit-block">
+                        <h4>Unit 6: Transportation & Water Resource</h4>
+                        <ul>
+                            <li><strong>Pavement Cross-Sections:</strong></li>
+                        </ul>
+                        <div class="formula-box">
+                            Flexible Pavements: Subgrade -> Granular Sub-base -> Base Course -> Bituminous Surfacing [Grain-to-grain stress transfer]<br>
+                            Rigid Pavements: Soil Subgrade -> Base Course -> Portland Cement Concrete Slab [Slab flexing action load distribution]
+                        </div>
+                        <ul>
+                            <li><strong>Hydrology Systems:</strong> Rainwater parsing networks, quality checks for municipal water lines, and designing high-capacity reservoirs using solid gravity dams.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DATA STRUCTURES EXPANDED -->
+            <div class="subject-section" id="ds">
+                <div class="subject-header" onclick="toggleSection(this)">
+                    <div>
+                        <h2 style="font-size: 1.2rem;">Data Structures</h2>
+                        <span class="badge">Computing Module</span>
+                    </div>
+                    <div>▼</div>
+                </div>
+                <div class="subject-content">
+                    <div class="unit-block">
+                        <h4>Unit 1: Arrays & Linked Lists</h4>
+                        <ul>
+                            <li><strong>Complexity Boundaries:</strong> Tracking runtime constraints using Big-O notation metrics. Accessing static arrays requires O(1) steps. Searching unordered lists takes O(n) worst-case processing cycles.</li>
+                            <li><strong>Dynamic Nodes Implementations:</strong> Memory management via pointers.</li>
+                        </ul>
+                        <div class="formula-box">
+                            Singly Linked Node: [Data | Next Pointer]<br>
+                            Doubly Linked Node: [Prev Pointer | Data | Next Pointer] -> Supports bidirectional steps<br>
+                            Circular Linked Node: Last node's Next pointer references head position -> Loop tracking
+                        </div>
+                    </div>
+                    <div class="unit-block">
+                        <h4>Unit 2: Stacks & Queues</h4>
+                        <ul>
+                            <li><strong>Stack Structures (LIFO Pipeline):</strong> All insertions and deletions take place at a single 'Top' index point. Handled via Push and Pop methods. Supports compiler tracking loops, bracket parity tests, and prefix conversions.</li>
+                            <li><strong>Queue Structures (FIFO Pipeline):</strong> Element additions occur at the Rear boundary, and removals occur at Front boundary lines.</li>
+                        </ul>
+                        <div class="formula-box">Circular Queue Condition: Rear = (Rear + 1) % Max_Size [Resolves data space leaks]</div>
+                    </div>
+                    <div class="unit-block">
+                        <h4>Unit 3: Searching & Sorting Techniques</h4>
+                        <ul>
+                            <li><strong>Search Complexities:</strong> Linear scanning loops execute in O(n) times. Binary configurations require pre-sorted inputs and partition scopes in O(log n) steps.</li>
+                            <li><strong>Sorting Engine Algorithms:</strong></li>
+                        </ul>
+                        <div class="formula-box">
+                            Bubble / Selection / Insertion Sort: Average and worst case processing metrics at O(n^2).<br>
+                            Quick Sort: Partitioning arrays around dynamically selected pivot indices. O(n log n) average step counts.<br>
+                            Merge Sort: Divide-and-conquer strategy that continuously breaks arrays into halves before recombining. Guarantees O(n log n).
+                        </div>
+                    </div>
+                    <div class="unit-block">
+                        <h4>Unit 4: Binary Trees & BST</h4>
+                        <ul>
+                            <li><strong>Tree Architectures:</strong> Non-linear node systems tracing roots and child leaf targets.</li>
+                            <li><strong>Binary Search Trees (BST):</strong> Left child node values must be less than parent node values. Right child node values must be greater than parent node values.</li>
+                            <li><strong>Recursive Traversals Execution Paths:</strong></li>
+                        </ul>
+                        <div class="formula-box">
+                            Pre-Order: Visit Root -> Process Left Subtree -> Process Right Subtree<br>
+                            In-Order: Process Left Subtree -> Visit Root -> Process Right Subtree [Produces sorted list for BST]<br>
+                            Post-Order: Process Left Subtree -> Process Right Subtree -> Visit Root
+                        </div>
+                    </div>
+                    <div class="unit-block">
+                        <h4>Unit 5: Graphs Structural Methods</h4>
+                        <ul>
+                            <li><strong>Network Storage Matrices:</strong> Storing connections using 2D binary Adjacency Arrays or memory-efficient Adjacency Link lists.</li>
+                            <li><strong>Traversal Engines:</strong></li>
+                        </ul>
+                        <div class="formula-box">
+                            Breadth-First Search (BFS): Explores tracking networks layer by layer. Powered by a Queue array.<br>
+                            Depth-First Search (DFS): Traverses deeply along each branch before backtracking. Powered by recursive stacks.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CHEMISTRY EXPANDED -->
+            <div class="subject-section" id="chemistry">
+                <div class="subject-header" onclick="toggleSection(this)">
+                    <div>
+                        <h2 style="font-size: 1.2rem;">Engineering Chemistry</h2>
+                        <span class="badge">Applied Science</span>
+                    </div>
+                    <div>▼</div>
+                </div>
+                <div class="subject-content">
+                    <div class="unit-block">
+                        <h4>Unit 1: Atomic & Molecular Properties</h4>
+                        <ul>
+                            <li><strong>Molecular Orbital Theory (MOT):</strong> Linear combinations of atomic orbitals form discrete bonding and anti-bonding molecular energy states.</li>
+                            <li><strong>Electronic Config Maps:</strong> Drawing explicit energy level diagrams for molecules like O2 and CO.</li>
+                        </ul>
+                        <div class="formula-box">Bond Order Calculation: BO = (No. of Bonding Electrons - No. of Anti-bonding Electrons) / 2</div>
+                        <ul>
+                            <li><strong>Magnetic Categorization:</strong> Unpaired electrons flag paramagnetic trends. Complete paired allocations create diamagnetic shields.</li>
+                        </ul>
+                    </div>
+                    <div class="unit-block">
+                        <h4>Unit 2: Solid Semiconductors Chemistry</h4>
+                        <ul>
+                            <li><strong>Solid Energy States:</strong> Valence bands full of electrons sit beneath an energy gap, above which lies the empty conduction band.</li>
+                            <li><strong>Doping Injections:</strong> Modifying material conductivity.</li>
+                        </ul>
+                        <div class="formula-box">
+                            n-Type Semiconductors: Silicon doped with Pentavalent targets (Phosphorus). Extra valence electrons become majority carriers.<br>
+                            p-Type Semiconductors: Silicon doped with Trivalent targets (Boron). Electron absences (Holes) become majority carriers.
+                        </div>
+                    </div>
+                    <div class="unit-block">
+                        <h4>Unit 3: Electrochemistry & Battery cells</h4>
+                        <ul>
+                            <li><strong>Galvanic Cell Interfaces:</strong> Anode tracking sites undergo oxidation reactions. Cathode boundaries manage reduction pathways.</li>
+                            <li><strong>Thermodynamic Potentials:</strong> Cell potential tracking calculations are computed using ion concentrations and the Nernst Equation:</li>
+                        </ul>
+                        <div class="formula-box">E_Cell = E0_Cell - (0.0591 / n) * log10([Anode Products Ions] / [Cathode Reactant Ions])</div>
+                        <ul>
+                            <li><strong>Energy Packs Configurations:</strong> Discharging and charging chemistry lines behind industrial Lead-Acid arrays, commercial Lithium-ion battery packs, and clean Hydrogen-Oxygen fuel cells.</li>
+                        </ul>
+                    </div>
+                    <div class="unit-block">
+                        <h4>Unit 4: Polymers & Elastomers</h4>
+                        <ul>
+                            <li><strong>Synthesis Vectors:</strong> Chain growth additions versus step-growth condensation processes.</li>
+                            <li><strong>Thermal Variations:</strong> Thermoplastics exhibit linear structures that soften easily when heated. Thermosetting polymers rely on strong cross-linked networks that set permanently.</li>
+                            <li><strong>Synthetic Formulations:</strong> Molecular structural layouts and preparation steps for Nylon-6,6 threads, Terylene structures, and synthetic Buna-S and Buna-N rubbers.</li>
+                        </ul>
+                    </div>
+                    <div class="unit-block">
+                        <h4>Unit 5: Spectroscopy Instrumental Blueprints</h4>
+                        <ul>
+                            <li><strong>Photometric Laws:</strong> Spectroscopic analysis runs entirely on concentration scaling paths.</li>
+                        </ul>
+                        <div class="formula-box">Beer-Lambert Formulation: Absorbance (A) = log10(I0 / I) = ε * c * l [ε = Absorptivity, c = Concentration, l = Path Length]</div>
+                        <ul>
+                            <li><strong>Analytical Instruments Architectures:</strong> Optomechanical component sequences and layout paths for UV-Visible light detectors, FTIR systems mapping molecule vibrations, and HPLC separation tubes.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ENGLISH EXPANDED -->
+            <div class="subject-section" id="english">
+                <div class="subject-header" onclick="toggleSection(this)">
+                    <div>
+                        <h2 style="font-size: 1.2rem;">Communicative English</h2>
+                        <span class="badge">Professional Track</span>
+                    </div>
+                    <div>▼</div>
+                </div>
+                <div class="subject-content">
+                    <div class="unit-block">
+                        <h4>Unit 1: Word Power Mastery</h4>
+                        <ul>
+                            <li><strong>Lexical Assets:</strong> Professional contextual synonym choices, technical prefixes, and Greek/Latin root tracking.</li>
+                            <li><strong>Homophone Verifications:</strong> Eradicating common vocabulary errors (e.g., matching 'complement' vs 'compliment', or choosing 'affect' vs 'effect').</li>
+                        </ul>
+                    </div>
+                    <div class="unit-block">
+                        <h4>Unit 2: Functional Grammar Concord</h4>
+                        <ul>
+                            <li><strong>Syntax Parameters:</strong> Checking rules for Subject-Verb Agreement. Correcting irregular noun agreements and complex compound clause structures.</li>
+                            <li><strong>Structural Conversions:</strong> Rewriting sentences to swap between Active and Passive voices. Transforming narrative direct speech logs into indirect styles without shifting tense markers.</li>
+                        </ul>
+                    </div>
+                    <div class="unit-block">
+                        <h4>Unit 3: Reading Mechanics & Text Analysis</h4>
+                        <ul>
+                            <li><strong>Speed Reading Systems:</strong> Using skimming strategies to extract central themes from large documents, and scanning structures to find specific technical values.</li>
+                            <li><strong>Literary Compilations:</strong> Processing assigned essays, parsing argument layers within non-fiction readings, and drafting accurate text abstracts.</li>
+                        </ul>
+                    </div>
+                    <div class="unit-block">
+                        <h4>Unit 4: Business Writing Standards</h4>
+                        <ul>
+                            <li><strong>Official Communication Formats:</strong> Writing formal letters for business inquiries, structuring asset complaints, and placing vendor purchases.</li>
+                            <li><strong>Corporate Communication Formats:</strong> Layout rules for short internal memos, drafting institutional circular headers, and enforcing professional email etiquette structures.</li>
+                        </ul>
+                    </div>
+                    <div class="unit-block">
+                        <h4>Unit 5: Employment Document Engineering</h4>
+                        <ul>
+                            <li><strong>Job Applications:</strong> Drafting persuasive cover letters mapped against specific target job descriptions.</li>
+                            <li><strong>Resume Architecture Block Alignments:</strong> Designing a scannable, impact-driven professional layout.</li>
+                        </ul>
+                        <div class="formula-box">Standard Layout: Core Contact Info -> Professional Profile Summary -> Technical Tool Inventory -> Academic Timeline -> Projects and Hackathon Portfolio -> Achievements</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SUPPLY TARGET EXPANDED -->
+            <div class="subject-section" id="supply">
+                <div class="subject-header" onclick="toggleSection(this)">
+                    <div>
+                        <h2 style="font-size: 1.2rem;">1-1 Linear Algebra & Calculus</h2>
+                        <span class="badge danger">Supply Target</span>
+                    </div>
+                    <div>▼</div>
+                </div>
+                <div class="subject-content">
+                    <div class="unit-block">
+                        <h4>Matrix Architecture & Consistency Systems</h4>
+                        <ul>
+                            <li><strong>Rank Evaluations:</strong> Reducing matrices to Row Echelon Form using systemic elementary row transformations. The number of non-zero rows defines the Rank, ρ(A).</li>
+                            <li><strong>Consistency Verifications:</strong> Checking non-homogeneous systems AX = B with the Augmented Matrix [A|B].</li>
+                        </ul>
+                        <div class="formula-box">
+                            Consistent System: Rank(A) = Rank([A|B]) [If Rank = No. of variables n -> Unique Solution]<br>
+                            Infinite Solutions: Rank(A) = Rank([A|B]) & Rank < n [Requires parameter assignments]<br>
+                            Inconsistent System: Rank(A) != Rank([A|B]) [Zero Solution Space]
+                        </div>
+                    </div>
+                    <div class="unit-block">
+                        <h4>Eigenvalues & Linear Transformations</h4>
+                        <ul>
+                            <li><strong>Characteristic Tracking:</strong> Solving for values of λ that satisfy the characteristic determinant equation: |A - λI| = 0.</li>
+                            <li><strong>Eigenvector Inferences:</strong> Substituting derived values of λ back into (A - λI)X = 0 to isolate corresponding non-trivial directional vector baselines.</li>
+                            <li><strong>Cayley-Hamilton Theorem Application:</strong> Every square matrix satisfies its own characteristic equation, providing a streamlined way to calculate higher matrix exponents and inverse configurations:</li>
+                        </ul>
+                        <div class="formula-box">Example Matrix Polynomial: A^2 - 5A + 7I = 0   ==>   Inverse Form: A^-1 = (1/7) * (5I - A)</div>
+                    </div>
+                    <div class="unit-block">
+                        <h4>Single Variable Differential Calculus</h4>
+                        <ul>
+                            <li><strong>Mean Value Theorems Formulations:</strong></li>
+                        </ul>
+                        <div class="formula-box">
+                            Rolle's Theorem: If f(a)=f(b) on continuous/differentiable intervals, then there exists a point c where f'(c) = 0.<br>
+                            Lagrange's MVT: There exists a point c where f'(c) = [f(b) - f(a)] / (b - a).<br>
+                            Cauchy's MVT: There exists a point c where f'(c) / g'(c) = [f(b) - f(a)] / [g(b) - g(a)].
+                        </div>
+                        <ul>
+                            <li><strong>Indeterminate Limit Forms:</strong> Resolving complex expressions of type (0/0) or (∞/∞) via L'Hôpital's Rule by calculating derivatives of the numerator and denominator independently until the limit evaluates cleanly.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        // System Clock Initialization Engine
+        function updateClock() {
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
+            const timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
+            document.getElementById('current-time').innerText = `${dateStr} | ${timeStr}`;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // Section Toggle Engine
+        function toggleSection(headerElement) {
+            const contentBlock = headerElement.nextElementSibling;
+            const marker = headerElement.querySelector('div:last-child');
+            contentBlock.style.display = (contentBlock.style.display === "block") ? "none" : "block";
+            marker.innerText = (contentBlock.style.display === "block") ? "▲" : "▼";
+        }
+
+        // Real-Time Study Logging Engine
+        function logStudySession() {
+            const subject = document.getElementById('subject-select').value;
+            const topics = document.getElementById('topics-input').value.trim();
+            
+            if (topics === "") {
+                alert("Provide the exact topics completed before attempting to commit log data.");
+                return;
+            }
+
+            const historyList = document.getElementById('log-history');
+            const emptyState = document.getElementById('empty-state');
+            if (emptyState) emptyState.remove();
+
+            const now = new Date();
+            const timestamp = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) + " @ " + now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+
+            const newItem = document.createElement('div');
+            newItem.className = 'history-item';
+            newItem.innerHTML = `
+                <div class="history-meta">
+                    <h4>${subject}</h4>
+                    <p>${topics}</p>
+                </div>
+                <div class="history-timestamp">${timestamp}</div>
+            `;
+
+            historyList.insertBefore(newItem, historyList.firstChild);
+            document.getElementById('topics-input').value = ""; // Flush input field
+        }
+    </script>
+</body>
+</html>
