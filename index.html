@@ -396,11 +396,7 @@
 
         <div class="nav-section-title">I-I Supplementary</div>
         <ul class="nav-links">
-            <li><a href="#phy-11" onclick="closeMenuOnNav()">Engineering Physics</a></li>
             <li><a href="#lac-11" onclick="closeMenuOnNav()">Linear Algebra & Calc</a></li>
-            <li><a href="#beee-11" onclick="closeMenuOnNav()">Basic Electrical & Electronics</a></li>
-            <li><a href="#itp-11" onclick="closeMenuOnNav()">Intro to Programming</a></li>
-            <li><a href="#eg-11" onclick="closeMenuOnNav()">Engineering Graphics</a></li>
         </ul>
     </aside>
 
@@ -408,11 +404,12 @@
         <header>
             <div>
                 <h1>Dynamic Progress Monitor</h1>
-                <p>Official GIET ECE July 2026 Examination Tracking Interface.</p>
+                <p>Official ECE Examination Tracking Interface.</p>
             </div>
             <div id="current-time">System Clock...</div>
         </header>
 
+        <!-- Dynamic Study Logger Panel -->
         <section class="logger-panel">
             <h2>📝 Log Your Completed Work</h2>
             <div class="logger-grid">
@@ -424,11 +421,7 @@
                         <option value="[1-2] Engineering Chemistry">1-2 | Engineering Chemistry</option>
                         <option value="[1-2] Basic Civil & Mechanical Engineering">1-2 | Basic Civil & Mechanical Engineering</option>
                         <option value="[1-2] Network Analysis">1-2 | Network Analysis</option>
-                        <option value="[1-1] Engineering Physics">1-1 | Engineering Physics (Supply)</option>
                         <option value="[1-1] Linear Algebra & Calculus">1-1 | Linear Algebra & Calculus (Supply)</option>
-                        <option value="[1-1] Basic Electrical & Electronics Engineering">1-1 | Basic Electrical & Electronics (Supply)</option>
-                        <option value="[1-1] Introduction to Programming">1-1 | Introduction to Programming (Supply)</option>
-                        <option value="[1-1] Engineering Graphics">1-1 | Engineering Graphics (Supply)</option>
                     </select>
                 </div>
                 <div class="input-group">
@@ -439,6 +432,7 @@
             </div>
         </section>
 
+        <!-- Live History Stream -->
         <section class="history-section">
             <h3>Verified Study History</h3>
             <div class="history-list" id="log-history">
@@ -448,190 +442,213 @@
             </div>
         </section>
 
+        <!-- Verified ECE Blueprint Container -->
         <h3 style="margin-bottom: 1rem; color: var(--text-muted); text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0.5px;">Official ECE Examination Blueprint</h3>
         <div id="syllabus-container">
             
+            <!-- COMMUNICATIVE ENGLISH -->
             <div class="subject-section" id="eng-12">
                 <div class="subject-header" onclick="toggleSection(this)">
                     <div>
                         <h2>Communicative English (24HS2T01)</h2>
-                        <span class="date-badge">📅 EXAM DATE: 01-07-2026 (Wednesday)</span>
+                        <span class="date-badge">📅 Regular Exam Block</span>
                     </div>
                     <div>▼</div>
                 </div>
                 <div class="subject-content">
                     <div class="unit-block">
-                        <h4>Syllabus Track & Focus Areas</h4>
+                        <h4>Unit 1: Functional Grammar & Building Blocks</h4>
                         <ul>
-                            <li><strong>Grammar & Voice:</strong> Subject-verb agreement mechanics, active/passive switches, direct/indirect transformations.</li>
-                            <li><strong>Professional Communication:</strong> Official letters, complaint logging, resume design, and electronic mail etiquette rules.</li>
+                            <li><strong>Subject-Verb Agreement:</strong> Ensuring singular/plural subjects match their verbs across complex sentence clauses.</li>
+                            <li><strong>Tenses & Voice:</strong> Mastering structural shifts between active and passive voice to change the tone of professional writing.</li>
+                            <li><strong>Direct & Indirect Speech:</strong> Reporting statements accurately by shifting tenses back and modifying pronouns or time markers.</li>
+                        </ul>
+                    </div>
+                    <div class="unit-block">
+                        <h4>Unit 2: Professional Technical Writing</h4>
+                        <ul>
+                            <li><strong>Official Correspondence:</strong> Structuring formal business letters, logging system complaints, and managing clear corporate email threads.</li>
+                            <li><strong>Resume & Profile Design:</strong> Crafting high-impact resumes, cover letters, and professional profiles tailored to tech recruitment.</li>
                         </ul>
                     </div>
                 </div>
             </div>
 
+            <!-- MATH II -->
             <div class="subject-section" id="math-12">
                 <div class="subject-header" onclick="toggleSection(this)">
                     <div>
                         <h2>Differential Equations & Vector Calculus (24BS2T04)</h2>
-                        <span class="date-badge">📅 EXAM DATE: 03-07-2026 (Friday)</span>
+                        <span class="date-badge">📅 Regular Exam Block</span>
                     </div>
                     <div>▼</div>
                 </div>
                 <div class="subject-content">
                     <div class="unit-block">
-                        <h4>Core Calculus Frameworks</h4>
+                        <h4>Unit 1: First-Order Ordinary Differential Equations</h4>
                         <ul>
-                            <li><strong>Linear DE:</strong> Higher order f(D)y = Q(x) parsing solutions via C.F. and P.I. equations.</li>
+                            <li><strong>Linear DEs:</strong> Identifying and solving equations where the dependent variable and its derivative appear to the first power.</li>
+                            <li><strong>Bernoulli Differential Equations:</strong> Reducing non-linear equations down to linear versions using custom transformations.</li>
+                            <li><strong>Exact Equations:</strong> Verifying the partial derivative test ($\frac{\partial M}{\partial y} = \frac{\partial N}{\partial x}$) and applying standard integration rules.</li>
                         </ul>
-                        <div class="formula-box">Vector Calculus Field Conversions:<br>Green's Area: ∫(Mdx + Ndy) = ∫∫(∂N/∂x - ∂M/∂y)dxdy<br>Stoke's Line to Surface: ∫F · dr = ∫∫(∇ x F) · n dS</div>
+                        <div class="formula-box">Linear Integrating Factor Template:<br>I.F. = e^(∫P dx)  ==> Solution: y * I.F. = ∫(Q * I.F.)dx + C</div>
+                    </div>
+                    <div class="unit-block">
+                        <h4>Unit 2: Higher-Order Linear Differential Equations</h4>
+                        <ul>
+                            <li><strong>Complementary Functions (C.F.):</strong> Finding the roots of the characteristic equation to solve the homogeneous side.</li>
+                            <li><strong>Particular Integrals (P.I.):</strong> Calculating the specific response of the system based on shortcut methods for $e^{ax}$, $\sin(ax)$, or polynomial functions.</li>
+                        </ul>
+                    </div>
+                    <div class="unit-block">
+                        <h4>Unit 3: Vector Differentiation & Integration Theorems</h4>
+                        <ul>
+                            <li><strong>Gradient, Divergence & Curl:</strong> Computing spatial rates of change, flux outflux levels, and rotational metrics of vector fields.</li>
+                            <li><strong>Integral Integration Theorems:</strong> Utilizing Green's, Stokes', and Gauss Divergence theorems to swap between line, surface, and volume math.</li>
+                        </ul>
+                        <div class="formula-box">Stoke's Line to Surface Conversion:<br>∫ F · dr = ∫∫ (∇ x F) · n dS</div>
                     </div>
                 </div>
             </div>
 
+            <!-- ENGINEERING CHEMISTRY -->
             <div class="subject-section" id="chem-12">
                 <div class="subject-header" onclick="toggleSection(this)">
                     <div>
                         <h2>Engineering Chemistry (24BS2T01)</h2>
-                        <span class="date-badge">📅 EXAM DATE: 06-07-2026 (Monday)</span>
+                        <span class="date-badge">📅 Regular Exam Block</span>
                     </div>
                     <div>▼</div>
                 </div>
                 <div class="subject-content">
                     <div class="unit-block">
-                        <h4>Applied Chemical Systems</h4>
+                        <h4>Unit 1: Electrochemistry & Battery Systems</h4>
                         <ul>
-                            <li><strong>Electrochemistry & Energy Packs:</strong> Lead-Acid storage layouts, Lithium-ion cell structures, and Nernst metrics.</li>
+                            <li><strong>Electrode Potentials:</strong> Evaluating driving forces using standard reduction potentials and electrode designs.</li>
+                            <li><strong>The Nernst Equation:</strong> Adjusting cell EMF metrics based on varying operating temperatures and ion solution concentrations.</li>
+                            <li><strong>Commercial Battery Packs:</strong> Working mechanics of secondary storage systems like Lead-Acid units and Lithium-Ion cells.</li>
                         </ul>
-                        <div class="formula-box">Nernst Isolation:<br>E_Cell = E0_Cell - (0.0591 / n) * log10([Anode Ions] / [Cathode Ions])</div>
+                        <div class="formula-box">Nernst Potential Calculation:<br>E_Cell = E0_Cell - (0.0591 / n) * log10([Anode Ions] / [Cathode Ions])</div>
+                    </div>
+                    <div class="unit-block">
+                        <h4>Unit 2: Corrosion Engineering & Prevention</h4>
+                        <ul>
+                            <li><strong>Corrosion Mechanisms:</strong> Comparing direct chemical (dry) attack with electrochemical (wet) degradation cells.</li>
+                            <li><strong>Control Measures:</strong> Applying protective coatings, choosing robust materials, and deploying sacrificial anode cathodic protection.</li>
+                        </ul>
+                    </div>
+                    <div class="unit-block">
+                        <h4>Unit 3: Water Technology & Engineering Materials</h4>
+                        <ul>
+                            <li><strong>Hardness Treatment:</strong> Measuring ppm concentrations and softening water using ion-exchange columns or reverse osmosis.</li>
+                            <li><strong>Advanced Polymers & Composites:</strong> Synthesis and properties of engineering plastics and conducting polymers for electronics.</li>
+                        </ul>
                     </div>
                 </div>
             </div>
 
+            <!-- BCME -->
             <div class="subject-section" id="bcme-12">
                 <div class="subject-header" onclick="toggleSection(this)">
                     <div>
                         <h2>Basic Civil & Mechanical Engineering (24ES2T01)</h2>
-                        <span class="date-badge">📅 EXAM DATE: 08-07-2026 (Wednesday)</span>
+                        <span class="date-badge">📅 Regular Exam Block</span>
                     </div>
                     <div>▼</div>
                 </div>
                 <div class="subject-content">
                     <div class="unit-block">
-                        <h4>Foundational Infrastructure & Surveying</h4>
+                        <h4>Unit 1: Civil Engineering Foundations & Surveying</h4>
                         <ul>
-                            <li><strong>Mechanical Components:</strong> 2-Stroke & 4-Stroke configurations, Otto vs Diesel cycles, and manufacturing machinery profiles.</li>
-                            <li><strong>Civil Infrastructure:</strong> Leveling metrics, pavement profiles, and bearing shifts.</li>
+                            <li><strong>General Surveying:</strong> Understanding measurement frameworks, linear distance tools, and compass tracking configurations.</li>
+                            <li><strong>Levelling Operations:</strong> Computing elevation metrics, establishing benchmarks, and calculating reduced levels.</li>
+                            <li><strong>Building Materials:</strong> Assessing structural properties of smart concrete mixes, stone types, and structural brick elements.</li>
+                        </ul>
+                    </div>
+                    <div class="unit-block">
+                        <h4>Unit 2: Mechanical Power Cycles & Engines</h4>
+                        <ul>
+                            <li><strong>Internal Combustion Engines:</strong> Distinguishing mechanical strokes across 2-Stroke and 4-Stroke layouts.</li>
+                            <li><strong>Thermal Power Systems:</strong> Evaluating air-standard operating limits of basic Otto (Gasoline) and Diesel engine cycles.</li>
+                        </ul>
+                    </div>
+                    <div class="unit-block">
+                        <h4>Unit 3: Manufacturing & Machining Basics</h4>
+                        <ul>
+                            <li><strong>Machine Tool Foundations:</strong> Operational functions of central lathe units, drilling heads, and milling machinery.</li>
+                            <li><strong>Joining Methods:</strong> Mechanical profiles of arc welding setups, brazing operations, and standard soldering.</li>
                         </ul>
                     </div>
                 </div>
             </div>
 
+            <!-- NETWORK ANALYSIS -->
             <div class="subject-section" id="na-12">
                 <div class="subject-header" onclick="toggleSection(this)">
                     <div>
                         <h2>Network Analysis (24ES2T02)</h2>
-                        <span class="date-badge" style="color: var(--accent-green);">📅 EXAM DATE: 10-07-2026 (Friday) - CORE TRACK</span>
+                        <span class="date-badge" style="color: var(--accent-green);">📅 CORE ECE TRACK</span>
                     </div>
                     <div>▼</div>
                 </div>
                 <div class="subject-content">
                     <div class="unit-block">
-                        <h4>Electrical Infrastructure & Parameters</h4>
+                        <h4>Unit 1: DC Circuit Analysis & Core Theorems</h4>
                         <ul>
-                            <li><strong>Network Reduction Theorems:</strong> Thevenin values, Norton current tracking, and resonance limits.</li>
-                            <li><strong>Two-Port Parameter Arrays:</strong></li>
+                            <li><strong>Mesh & Nodal Analysis:</strong> Systematically applying KVL and KCL to solve multi-loop matrix circuits.</li>
+                            <li><strong>Network Theorems:</strong> Finding equivalent circuits using Thevenin's, Norton's, and Superposition principles.</li>
+                            <li><strong>Maximum Power Transfer:</strong> Deriving load conditions to draw peak power from a source across AC and DC setups.</li>
                         </ul>
-                        <div class="formula-box">Z Matrix: V1 = Z11*I1 + Z12*I2 || V2 = Z21*I1 + Z22*I2<br>ABCD Parameters: V1 = A*V2 - B*I2 || I1 = C*V2 - D*I2</div>
+                        <div class="formula-box">AC Maximum Power Theorem Requirement:<br>ZL = Zth* (Load impedance must be the complex conjugate of source impedance)</div>
                     </div>
-                </div>
-            </div>
-
-            <div class="subject-section" id="phy-11">
-                <div class="subject-header" onclick="toggleSection(this)">
-                    <div>
-                        <h2>Engineering Physics (24BS1T03)</h2>
-                        <span class="date-badge supply">📅 EXAM DATE: 02-07-2026 (Thursday)</span>
-                    </div>
-                    <div>▼</div>
-                </div>
-                <div class="subject-content">
                     <div class="unit-block">
-                        <h4>Physical Optics & Wave Equations</h4>
+                        <h4>Unit 2: AC Circuits & Resonance States</h4>
                         <ul>
-                            <li><strong>Wave Theory:</strong> Interference, diffraction limits, and laser polarization profiles.</li>
+                            <li><strong>Sinusoidal Steady-State:</strong> Working with phasors, impedance triangles, power factors, and complex active/reactive power.</li>
+                            <li><strong>Series & Parallel Resonance:</strong> Calculating the exact resonant frequency, bandwidth, and high Quality-Factor (Q) amplification points.</li>
                         </ul>
+                    </div>
+                    <div class="unit-block">
+                        <h4>Unit 3: Two-Port Parameter Networks</h4>
+                        <ul>
+                            <li><strong>Parameter Conversions:</strong> Defining systems through Impedance (Z), Admittance (Y), and Transmission (ABCD) matrices.</li>
+                            <li><strong>Interconnections:</strong> Analyzing how parameters shift when two-port hardware blocks are stacked in cascade or parallel.</li>
+                        </ul>
+                        <div class="formula-box">ABCD Transmission Line Equations:<br>V1 = A*V2 - B*I2<br>I1 = C*V2 - D*I2</div>
                     </div>
                 </div>
             </div>
 
+            <!-- 1-1 LINEAR ALGEBRA & CALCULUS (SUPPLY ONLY) -->
             <div class="subject-section" id="lac-11">
                 <div class="subject-header" onclick="toggleSection(this)">
                     <div>
                         <h2>Linear Algebra & Calculus (24BS1T02)</h2>
-                        <span class="date-badge supply">📅 EXAM DATE: 04-07-2026 (Saturday)</span>
+                        <span class="date-badge supply">⚠️ CRITICAL SUPPLEMENTARY TRACK</span>
                     </div>
                     <div>▼</div>
                 </div>
                 <div class="subject-content">
                     <div class="unit-block">
-                        <h4>Matrix Infrastructures & Systems</h4>
+                        <h4>Unit 1: Linear Systems & Matrix Architectures</h4>
                         <ul>
-                            <li><strong>Echelon Reduction:</strong> Isolation of rank coordinates and characteristic eigenvalue extraction loops ($|A - \lambda I| = 0$).</li>
+                            <li><strong>Rank of a Matrix:</strong> Reducing systems down to Row Echelon form using basic elementary row operations.</li>
+                            <li><strong>System Consistency:</strong> Applying the Rouché-Capelli test to evaluate if non-homogeneous systems ($AX = B$) have solutions.</li>
+                        </ul>
+                        <div class="formula-box">Consistency Rule Check:<br>Consistent: Rank(A) == Rank([A|B])<br>Inconsistent (No Solution): Rank(A) != Rank([A|B])</div>
+                    </div>
+                    <div class="unit-block">
+                        <h4>Unit 2: Eigenvalues, Eigenvectors & Diagonalization</h4>
+                        <ul>
+                            <li><strong>Characteristic Matrix Equations:</strong> Solving $|A - \lambda I| = 0$ to calculate eigenvalues and finding corresponding spatial eigenvectors.</li>
+                            <li><strong>Cayley-Hamilton Theorem:</strong> Verifying that a matrix satisfies its own characteristic loop to quickly calculate powers or matrix inverses ($A^{-1}$).</li>
                         </ul>
                     </div>
-                </div>
-            </div>
-
-            <div class="subject-section" id="beee-11">
-                <div class="subject-header" onclick="toggleSection(this)">
-                    <div>
-                        <h2>Basic Electrical & Electronics Engineering (24ES1T03)</h2>
-                        <span class="date-badge supply">📅 EXAM DATE: 07-07-2026 (Tuesday)</span>
-                    </div>
-                    <div>▼</div>
-                </div>
-                <div class="subject-content">
                     <div class="unit-block">
-                        <h4>DC/AC Circuits & Electronic Junctions</h4>
+                        <h4>Unit 3: Single Variable Calculus & Mean Value Theorems</h4>
                         <ul>
-                            <li><strong>Hardware Fundamentals:</strong> PN Junction configurations, rectifier layouts, and transformer equations.</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <div class="subject-section" id="itp-11">
-                <div class="subject-header" onclick="toggleSection(this)">
-                    <div>
-                        <h2>Introduction to Programming (24ES1T02)</h2>
-                        <span class="date-badge supply">📅 EXAM DATE: 09-07-2026 (Thursday)</span>
-                    </div>
-                    <div>▼</div>
-                </div>
-                <div class="subject-content">
-                    <div class="unit-block">
-                        <h4>Logic & Algorithm Compilations</h4>
-                        <ul>
-                            <li><strong>C Programming Infrastructure:</strong> Core structures, array allocation loops, pointers, and memory blocks.</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <div class="subject-section" id="eg-11">
-                <div class="subject-header" onclick="toggleSection(this)">
-                    <div>
-                        <h2>Engineering Graphics (24ES1T04)</h2>
-                        <span class="date-badge supply">📅 EXAM DATE: 13-07-2026 (Monday)</span>
-                    </div>
-                    <div>▼</div>
-                </div>
-                <div class="subject-content">
-                    <div class="unit-block">
-                        <h4>Geometric Projection Standards</h4>
-                        <ul>
-                            <li><strong>Orthographic & Isometric Systems:</strong> Projection of points, lines, planes, and engineering components.</li>
+                            <li><strong>Mean Value Theorems:</strong> Mathematical proofs and application of Rolle's, Lagrange's, and Cauchy's Mean Value theorems.</li>
+                            <li><strong>Taylor & Maclaurin Series:</strong> Expanding continuous functions into polynomial power series centered around zero or custom coordinates.</li>
                         </ul>
                     </div>
                 </div>
