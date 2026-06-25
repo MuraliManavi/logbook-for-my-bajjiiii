@@ -75,10 +75,6 @@
             list-style: none;
         }
 
-        .nav-links li {
-            margin-bottom: 0.4rem;
-        }
-
         .nav-section-title {
             font-size: 0.75rem;
             color: var(--text-muted);
@@ -387,16 +383,16 @@
 
         <div class="nav-section-title">I-II Regular Blocks</div>
         <ul class="nav-links">
-            <li><a href="#eng-12" onclick="closeMenuOnNav()">Communicative English</a></li>
-            <li><a href="#math-12" onclick="closeMenuOnNav()">Math-II (DE & VC)</a></li>
-            <li><a href="#chem-12" onclick="closeMenuOnNav()">Chemistry</a></li>
-            <li><a href="#bcme-12" onclick="closeMenuOnNav()">Basic Civil & Mech</a></li>
-            <li><a href="#na-12" onclick="closeMenuOnNav()">Network Analysis</a></li>
+            <li><a href="#eng-12" onclick="navigateToSection('eng-12')">Communicative English</a></li>
+            <li><a href="#math-12" onclick="navigateToSection('math-12')">Math-II (DE & VC)</a></li>
+            <li><a href="#chem-12" onclick="navigateToSection('chem-12')">Chemistry</a></li>
+            <li><a href="#bcme-12" onclick="navigateToSection('bcme-12')">Basic Civil & Mech</a></li>
+            <li><a href="#na-12" onclick="navigateToSection('na-12')">Network Analysis</a></li>
         </ul>
 
         <div class="nav-section-title">I-I Supplementary</div>
         <ul class="nav-links">
-            <li><a href="#lac-11" onclick="closeMenuOnNav()">Linear Algebra & Calc</a></li>
+            <li><a href="#lac-11" onclick="navigateToSection('lac-11')">Linear Algebra & Calc</a></li>
         </ul>
     </aside>
 
@@ -414,13 +410,13 @@
             <div class="logger-grid">
                 <div class="input-group">
                     <label for="subject-select">Select Target Subject</label>
-                    <select id="subject-select">
-                        <option value="[1-2] Communicative English">1-2 | Communicative English</option>
-                        <option value="[1-2] Differential Equations & Vector Calculus">1-2 | Differential Equations & Vector Calculus</option>
-                        <option value="[1-2] Chemistry">1-2 | Chemistry</option>
-                        <option value="[1-2] Basic Civil & Mechanical Engineering">1-2 | Basic Civil & Mechanical Engineering</option>
-                        <option value="[1-2] Network Analysis">1-2 | Network Analysis</option>
-                        <option value="[1-1] Linear Algebra & Calculus">1-1 | Linear Algebra & Calculus (Supply)</option>
+                    <select id="subject-select" onchange="handleDropdownSync(this.value)">
+                        <option value="eng-12">1-2 | Communicative English</option>
+                        <option value="math-12">1-2 | Differential Equations & Vector Calculus</option>
+                        <option value="chem-12">1-2 | Chemistry</option>
+                        <option value="bcme-12">1-2 | Basic Civil & Mechanical Engineering</option>
+                        <option value="na-12">1-2 | Network Analysis</option>
+                        <option value="lac-11">1-1 | Linear Algebra & Calculus (Supply)</option>
                     </select>
                 </div>
                 <div class="input-group">
@@ -449,7 +445,7 @@
                         <h2>Communicative English (24HS2T01)</h2>
                         <span class="date-badge">📅 Wed, 01-07-2026 | 01:30 PM - 04:30 PM</span>
                     </div>
-                    <div>▼</div>
+                    <div class="arrow-indicator">▼</div>
                 </div>
                 <div class="subject-content">
                     <div class="unit-block">
@@ -503,7 +499,7 @@
                         <h2>Differential Equations & Vector Calculus (24BS2T04)</h2>
                         <span class="date-badge">📅 Fri, 03-07-2026 | 01:30 PM - 04:30 PM</span>
                     </div>
-                    <div>▼</div>
+                    <div class="arrow-indicator">▼</div>
                 </div>
                 <div class="subject-content">
                     <div class="unit-block">
@@ -562,7 +558,7 @@
                         <h2>Chemistry (24BS2T01)</h2>
                         <span class="date-badge">📅 Mon, 06-07-2026 | 01:30 PM - 04:30 PM</span>
                     </div>
-                    <div>▼</div>
+                    <div class="arrow-indicator">▼</div>
                 </div>
                 <div class="subject-content">
                     <div class="unit-block">
@@ -615,7 +611,6 @@
                             <li>Polymer Electrolyte Membrane Fuel cells (PEMFC)S</li>
                             <li>Class Test -3</li>
                         </ul>
-                        <div class="formula-box">Nernst EMF:<br>E = E0 - (0.0591 / n) * log10([Products]/[Reactants])</div>
                     </div>
                     <div class="unit-block">
                         <h4>Unit 4: Polymer Chemistry</h4>
@@ -659,7 +654,7 @@
                         <h2>Basic Civil & Mechanical Engineering (24ES2T01)</h2>
                         <span class="date-badge">📅 Wed, 08-07-2026 | 01:30 PM - 04:30 PM</span>
                     </div>
-                    <div>▼</div>
+                    <div class="arrow-indicator">▼</div>
                 </div>
                 <div class="subject-content">
                     <div class="unit-block">
@@ -774,7 +769,7 @@
                         <h2>Network Analysis (24ES2T02)</h2>
                         <span class="date-badge" style="color: var(--accent-green);">📅 Fri, 10-07-2026 | 01:30 PM - 04:30 PM</span>
                     </div>
-                    <div>▼</div>
+                    <div class="arrow-indicator">▼</div>
                 </div>
                 <div class="subject-content">
                     <div class="unit-block">
@@ -792,7 +787,6 @@
                             <li>Norton's & Max Power Theorems: Short-circuit current constraints, maximum transfer conditions for complex conjugates ($Z_L = Z_{th}^*$).</li>
                             <li>Reciprocity & Millman's Theorems: Network validation checks across bilateral configuration loops.</li>
                         </ul>
-                        <div class="formula-box">AC Maximum Power Criteria:<br>Z_Load = Z_Thevenin*</div>
                     </div>
                     <div class="unit-block">
                         <h4>Unit 3: Single-Phase AC Networks Analysis</h4>
@@ -808,7 +802,6 @@
                             <li>Resonance Circuits: Series and parallel tank frequency matching, bandwidth profiles, high Quality-Factor metrics.</li>
                             <li>Magnetic Coupling: Mutual inductance profiles ($M$), coupling metrics ($k$), and dot convention polarity matching rules.</li>
                         </ul>
-                        <div class="formula-box">Resonant Frequency Formula:<br>f_r = 1 / (2 * π * √(L * C))</div>
                     </div>
                     <div class="unit-block">
                         <h4>Unit 5: Two-Port Parameter Blocks & Transients</h4>
@@ -826,7 +819,7 @@
                         <h2>Linear Algebra & Calculus (24BS1T02)</h2>
                         <span class="date-badge supply">⚠️ Sat, 04-07-2026 | 01:30 PM - 04:30 PM</span>
                     </div>
-                    <div>▼</div>
+                    <div class="arrow-indicator">▼</div>
                 </div>
                 <div class="subject-content">
                     <div class="unit-block">
@@ -864,4 +857,100 @@
                         <ul>
                             <li>Double Integrals: Calculation tracks over rectangular bounds and variable continuous shapes.</li>
                             <li>Change of Order: Modifying inner/outer integration boundaries to calculate complex 2D spatial fields.</li>
-                            <li>Triple Integrals
+                            <li>Triple Integrals: Processing spatial evaluations to find bounded volume shapes inside 3D coordinate limits.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        function toggleMenu() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay');
+            sidebar.classList.toggle('open');
+            overlay.style.display = sidebar.classList.contains('open') ? 'block' : 'none';
+        }
+
+        function closeMenuOnNav() {
+            if (window.innerWidth <= 768) {
+                toggleMenu();
+            }
+        }
+
+        // Fixes navigation to explicitly open the section accordion
+        function navigateToSection(id) {
+            closeMenuOnNav();
+            const section = document.getElementById(id);
+            if (section) {
+                const contentBlock = section.querySelector('.subject-content');
+                const marker = section.querySelector('.arrow-indicator');
+                contentBlock.style.display = "block";
+                marker.innerText = "▲";
+                section.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Automatically syncs the interactive logging dropdown to open target blocks
+        function handleDropdownSync(targetId) {
+            const section = document.getElementById(targetId);
+            if (section) {
+                const contentBlock = section.querySelector('.subject-content');
+                const marker = section.querySelector('.arrow-indicator');
+                contentBlock.style.display = "block";
+                marker.innerText = "▲";
+                section.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function updateClock() {
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+            const timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+            document.getElementById('current-time').innerText = `${dateStr} | ${timeStr}`;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        function toggleSection(headerElement) {
+            const contentBlock = headerElement.nextElementSibling;
+            const marker = headerElement.querySelector('.arrow-indicator');
+            contentBlock.style.display = (contentBlock.style.display === "block") ? "none" : "block";
+            marker.innerText = (contentBlock.style.display === "block") ? "▲" : "▼";
+        }
+
+        function logStudySession() {
+            const selectEl = document.getElementById('subject-select');
+            const subjectText = selectEl.options[selectEl.selectedIndex].text;
+            const topics = document.getElementById('topics-input').value.trim();
+            
+            if (topics === "") {
+                alert("Provide the exact topics completed before attempting to commit log data.");
+                return;
+            }
+
+            const historyList = document.getElementById('log-history');
+            const emptyState = document.getElementById('empty-state');
+            if (emptyState) emptyState.remove();
+
+            const now = new Date();
+            const timestamp = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) + " @ " + now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+
+            const newItem = document.createElement('div');
+            newItem.className = 'history-item';
+            newItem.innerHTML = `
+                <div class="history-meta">
+                    <h4>${subjectText}</h4>
+                    <p>${topics}</p>
+                </div>
+                <div class="history-timestamp">${timestamp}</div>
+            `;
+
+            historyList.insertBefore(newItem, historyList.firstChild);
+            document.getElementById('topics-input').value = "";
+        }
+    </script>
+</body>
+</html>
